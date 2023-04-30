@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Header.module.css"
 import SearchBar from "../SearchBar/SearchBar";
 
-const Header = (props:any) => {
+const Header = (props: any) => {
 
     return (
         <div className={styles.header}>

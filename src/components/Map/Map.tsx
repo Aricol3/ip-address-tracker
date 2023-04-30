@@ -1,10 +1,22 @@
-import React from "react";
-import {MapContainer, Marker, TileLayer} from "react-leaflet";
-import styles from "./Map.module.css"
+import React, { useEffect, useState } from "react";
+import {MapContainer, Marker, TileLayer, useMap} from "react-leaflet";
+import styles from "./Map.module.css";
 import customIcon from "../../images/icon-location.svg";
 import L from "leaflet";
 
-const Map = () => {
+function MyComponent(props: any) {
+    const map = useMap()
+    console.log('map center:', map.getCenter())
+    useEffect(() => {
+        if (props.IPInfo && props.IPInfo.location) {
+            const { lat, lng } = props.IPInfo.location;
+            map.setView([lat,lng], 13);
+        }
+    }, [props.IPInfo]);
+    return null;
+}
+
+const Map = (props: any) => {
     const customMarkerIcon = L.icon({
         iconUrl: customIcon,
         iconSize: [40, 50],
@@ -12,16 +24,28 @@ const Map = () => {
         popupAnchor: [-3, -76],
     });
 
+    const [lat, setLat] = useState(0);
+    const [lng, setLng] = useState(0);
+
+
+    useEffect(() => {
+        if (props.IPInfo && props.IPInfo.location) {
+            const { lat, lng } = props.IPInfo.location;
+            setLat(lat);
+            setLng(lng);
+        }
+    }, [props.IPInfo]);
+
     return (
-        <MapContainer className={styles.container} center={[51.505, -0.09]} zoom={13} zoomControl={false}>
+        <MapContainer className={styles.container} center={[lat,lng]} zoom={13} zoomControl={false}>
+            <MyComponent IPInfo={props.IPInfo}/>
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            <Marker position={[51.505, -0.09]} icon={customMarkerIcon}/>
+            {props.IPInfo && <Marker position={[lat,lng]} icon={customMarkerIcon} />}
         </MapContainer>
     );
 };
-
 
 export default Map;

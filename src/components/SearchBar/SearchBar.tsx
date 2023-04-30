@@ -7,7 +7,7 @@ const SearchBar = (props: any) => {
     const [IPAddress, setIPAddress] = useState("");
 
     const handleSearch = async () => {
-        const res = await axios.get("https://geo.ipify.org/api/v2/country", {
+        const res = await axios.get("https://geo.ipify.org/api/v2/country,city?apiKey=", {
             params: {
                 apiKey: "at_z51jYVTdP6XDJP6I1qYtmcN41Gl2a",
                 ipAddress: IPAddress
