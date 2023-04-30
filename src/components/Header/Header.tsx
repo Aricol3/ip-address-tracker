@@ -2,12 +2,12 @@ import React from "react";
 import styles from "./Header.module.css"
 import SearchBar from "../SearchBar/SearchBar";
 
-const Header = () => {
+const Header = (props:any) => {
 
     return (
         <div className={styles.header}>
             <span className={styles.title}>IP Address Tracker</span>
-            <SearchBar/>
+            <SearchBar setIPInfo={props.setIPInfo}/>
         </div>
     )
 }
